@@ -14,11 +14,11 @@ import android.widget.PopupWindow;
 
 /**
  * All rights Reserved, Designed By GeofferySun 
- * @Title: 	SelectPicPopupWindow.java 
- * @Package sun.geoffery.uploadpic 
- * @Description:´Óµ×²¿µ¯³ö»ò»¬³öÑ¡Ôñ²Ëµ¥»ò´°¿Ú
- * @author:	GeofferySun   
- * @date:	2015Äê1ÔÂ15ÈÕ ÉÏÎç1:21:01 
+ * @Title: 	SelectPicPopupWindow.java
+ * @Package sun.geoffery.uploadpic
+ * @Description:ä»åº•éƒ¨å¼¹å‡ºæˆ–æ»‘å‡ºé€‰æ‹©èœå•æˆ–çª—å£
+ * @author:	GeofferySun
+ * @date:	2015å¹´1æœˆ15æ—¥ ä¸Šåˆ1:21:01
  * @version	V1.0
  */
 public class SelectPicPopupWindow extends PopupWindow {
@@ -35,26 +35,26 @@ public class SelectPicPopupWindow extends PopupWindow {
 		takePhotoBtn = (Button) mMenuView.findViewById(R.id.takePhotoBtn);
 		pickPhotoBtn = (Button) mMenuView.findViewById(R.id.pickPhotoBtn);
 		cancelBtn = (Button) mMenuView.findViewById(R.id.cancelBtn);
-		// ÉèÖÃ°´Å¥¼àÌı
+		// è®¾ç½®æŒ‰é’®ç›‘å¬
 		cancelBtn.setOnClickListener(itemsOnClick);
 		pickPhotoBtn.setOnClickListener(itemsOnClick);
 		takePhotoBtn.setOnClickListener(itemsOnClick);
-		
-		// ÉèÖÃSelectPicPopupWindowµÄView
+
+		// è®¾ç½®SelectPicPopupWindowçš„View
 		this.setContentView(mMenuView);
-		// ÉèÖÃSelectPicPopupWindowµ¯³ö´°ÌåµÄ¿í
+		// è®¾ç½®SelectPicPopupWindowå¼¹å‡ºçª—ä½“çš„å®½
 		this.setWidth(LayoutParams.MATCH_PARENT);
-		// ÉèÖÃSelectPicPopupWindowµ¯³ö´°ÌåµÄ¸ß
+		// è®¾ç½®SelectPicPopupWindowå¼¹å‡ºçª—ä½“çš„é«˜
 		this.setHeight(LayoutParams.WRAP_CONTENT);
-		// ÉèÖÃSelectPicPopupWindowµ¯³ö´°Ìå¿Éµã»÷
+		// è®¾ç½®SelectPicPopupWindowå¼¹å‡ºçª—ä½“å¯ç‚¹å‡»
 		this.setFocusable(true);
-		// ÉèÖÃSelectPicPopupWindowµ¯³ö´°Ìå¶¯»­Ğ§¹û
+		// è®¾ç½®SelectPicPopupWindowå¼¹å‡ºçª—ä½“åŠ¨ç”»æ•ˆæœ
 		this.setAnimationStyle(R.style.PopupAnimation);
-		// ÊµÀı»¯Ò»¸öColorDrawableÑÕÉ«Îª°ëÍ¸Ã÷
+		// å®ä¾‹åŒ–ä¸€ä¸ªColorDrawableé¢œè‰²ä¸ºåŠé€æ˜
 		ColorDrawable dw = new ColorDrawable(0x80000000);
-		// ÉèÖÃSelectPicPopupWindowµ¯³ö´°ÌåµÄ±³¾°
+		// è®¾ç½®SelectPicPopupWindowå¼¹å‡ºçª—ä½“çš„èƒŒæ™¯
 		this.setBackgroundDrawable(dw);
-		// mMenuViewÌí¼ÓOnTouchListener¼àÌıÅĞ¶Ï»ñÈ¡´¥ÆÁÎ»ÖÃÈç¹ûÔÚÑ¡Ôñ¿òÍâÃæÔòÏú»Ùµ¯³ö¿ò
+		// mMenuViewæ·»åŠ OnTouchListenerç›‘å¬åˆ¤æ–­è·å–è§¦å±ä½ç½®å¦‚æœåœ¨é€‰æ‹©æ¡†å¤–é¢åˆ™é”€æ¯å¼¹å‡ºæ¡†
 		mMenuView.setOnTouchListener(new OnTouchListener() {
 
 			@Override

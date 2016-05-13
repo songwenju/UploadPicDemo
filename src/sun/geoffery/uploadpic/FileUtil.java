@@ -1,5 +1,10 @@
 package sun.geoffery.uploadpic;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.os.Environment;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -8,37 +13,31 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
-import android.os.Environment;
-
 public class FileUtil {
 
-    
-    /**
-     * ½«Bitmap Í¼Æ¬±£´æµ½±¾µØÂ·¾¶£¬²¢·µ»ØÂ·¾¶
-     * @param c
-     * @param mType ×ÊÔ´ÀàĞÍ£¬²ÎÕÕ  MultimediaContentType Ã¶¾Ù£¬¸ù¾İ´ËÀàĞÍ£¬±£´æÊ±¿É×Ô¶¯¹éÀà
-     * @param fileName ÎÄ¼şÃû³Æ
-     * @param bitmap Í¼Æ¬
-     * @return
-     */
+
+	/**
+	 * å°†Bitmap å›¾ç‰‡ä¿å­˜åˆ°æœ¬åœ°è·¯å¾„ï¼Œå¹¶è¿”å›è·¯å¾„
+	 * @param c ä¸Šä¸‹æ–‡
+	 * @param fileName æ–‡ä»¶åç§°
+	 * @param bitmap å›¾ç‰‡
+	 * @return ä¿å­˜çš„æ–‡ä»¶
+	 */
 	public static String saveFile(Context c, String fileName, Bitmap bitmap) {
 		return saveFile(c, "", fileName, bitmap);
 	}
-	
+
 	public static String saveFile(Context c, String filePath, String fileName, Bitmap bitmap) {
 		byte[] bytes = bitmapToBytes(bitmap);
 		return saveFile(c, filePath, fileName, bytes);
 	}
-	
+
 	public static byte[] bitmapToBytes(Bitmap bm) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		bm.compress(CompressFormat.JPEG, 100, baos);
 		return baos.toByteArray();
 	}
-	
+
 	public static String saveFile(Context c, String filePath, String fileName, byte[] bytes) {
 		String fileFullName = "";
 		FileOutputStream fos = null;

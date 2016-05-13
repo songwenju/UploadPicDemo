@@ -20,8 +20,7 @@ import android.widget.ImageView;
 /**
  * All rights Reserved, Designed By GeofferySun 
  * @Title: 	CircleImg.java 
- * @Package sun.geoffery.libaray.widget 
- * @Description:‘≤–ŒImageView
+ * @Package sun.geoffery.libaray.widget
  * @author:	GeofferySun   
  * @date:	2014-12-5 ‰∏ãÂçà11:38:42 
  * @version	V1.0

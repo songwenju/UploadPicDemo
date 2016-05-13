@@ -1,17 +1,5 @@
 package sun.geoffery.uploadpic;
 
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
@@ -38,14 +26,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * All rights Reserved, Designed By GeofferySun
- * 
+ *
  * @Title: UploadActivity.java
  * @Package sun.geoffery.uploadpic
- * @Description:ÉÏ´«Í¼Æ¬Ò³Ãæ
+ * @Description:ä¸Šä¼ å›¾ç‰‡é¡µé¢
  * @author: GeofferySun
- * @date: 2015Äê1ÔÂ15ÈÕ ÉÏÎç1:05:01
+ * @date: 2015å¹´1æœˆ15æ—¥ ä¸Šåˆ1:05:01
  * @version V1.0
  */
 public class UploadActivity extends Activity implements OnClickListener {
@@ -54,17 +54,17 @@ public class UploadActivity extends Activity implements OnClickListener {
 	private Button funBtn;
 	private TextView titleTxt;
 	private ImageView picImg;
-	private SelectPicPopupWindow menuWindow; // ×Ô¶¨ÒåµÄÍ·Ïñ±à¼­µ¯³ö¿ò
+	private SelectPicPopupWindow menuWindow; // è‡ªå®šä¹‰çš„å¤´åƒç¼–è¾‘å¼¹å‡ºæ¡†
 
 	private Uri photoUri;
-	/** Ê¹ÓÃÕÕÏà»úÅÄÕÕ»ñÈ¡Í¼Æ¬ */
+	/** ä½¿ç”¨ç…§ç›¸æœºæ‹ç…§è·å–å›¾ç‰‡ */
 	public static final int SELECT_PIC_BY_TACK_PHOTO = 1;
-	/** Ê¹ÓÃÏà²áÖĞµÄÍ¼Æ¬ */
+	/** ä½¿ç”¨ç›¸å†Œä¸­çš„å›¾ç‰‡ */
 	public static final int SELECT_PIC_BY_PICK_PHOTO = 2;
-	/** »ñÈ¡µ½µÄÍ¼Æ¬Â·¾¶ */
+	/** è·å–åˆ°çš„å›¾ç‰‡è·¯å¾„ */
 	private String picPath = "";
 	private static ProgressDialog pd;
-    private String resultStr = "";	// ·şÎñ¶Ë·µ»Ø½á¹û¼¯
+	private String resultStr = "";	// æœåŠ¡ç«¯è¿”å›ç»“æœé›†
 	private String imgUrl = "";
 
 	@Override
@@ -80,16 +80,16 @@ public class UploadActivity extends Activity implements OnClickListener {
 	}
 
 	/**
-	 * ³õÊ¼»¯Ò³Ãæ¿Ø¼ş
+	 * åˆå§‹åŒ–é¡µé¢æ§ä»¶
 	 */
 	private void initViews() {
 		backBtn = (Button) findViewById(R.id.backBtn);
 		funBtn = (Button) findViewById(R.id.funBtn);
 		titleTxt = (TextView) findViewById(R.id.titleTxt);
 		picImg = (ImageView) findViewById(R.id.picImg);
-		backBtn.setText("·µ»Ø");
-		funBtn.setText("·¢²¼");
-		titleTxt.setText("É¢·¢Ò¥ÑÔ");
+		backBtn.setText("è¿”å›");
+		funBtn.setText("å‘å¸ƒ");
+		titleTxt.setText("æ•£å‘è°£è¨€");
 		backBtn.setOnClickListener(this);
 		funBtn.setOnClickListener(this);
 		picImg.setOnClickListener(this);
@@ -98,74 +98,74 @@ public class UploadActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.backBtn:// ·µ»Ø
-		case R.id.funBtn:// ·¢²¼¡¾Ã»ÓĞ´¦Àí¡¿
-			finish();
-			break;
-		case R.id.picImg:// Ìí¼ÓÍ¼Æ¬µã»÷ÊÂ¼ş
-			// ´ÓÒ³Ãæµ×²¿µ¯³öÒ»¸ö´°Ìå£¬Ñ¡ÔñÅÄÕÕ»¹ÊÇ´ÓÏà²áÑ¡ÔñÒÑÓĞÍ¼Æ¬
-			menuWindow = new SelectPicPopupWindow(mContext, itemsOnClick);  
-			menuWindow.showAtLocation(findViewById(R.id.uploadLayout), 
-					Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0); 
-			break;
+			case R.id.backBtn:// è¿”å›
+			case R.id.funBtn:// å‘å¸ƒã€æ²¡æœ‰å¤„ç†ã€‘
+				finish();
+				break;
+			case R.id.picImg:// æ·»åŠ å›¾ç‰‡ç‚¹å‡»äº‹ä»¶
+				// ä»é¡µé¢åº•éƒ¨å¼¹å‡ºä¸€ä¸ªçª—ä½“ï¼Œé€‰æ‹©æ‹ç…§è¿˜æ˜¯ä»ç›¸å†Œé€‰æ‹©å·²æœ‰å›¾ç‰‡
+				menuWindow = new SelectPicPopupWindow(mContext, itemsOnClick);
+				menuWindow.showAtLocation(findViewById(R.id.uploadLayout),
+						Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+				break;
 
-		default:
-			break;
+			default:
+				break;
 		}
 	}
-	
-	//Îªµ¯³ö´°¿ÚÊµÏÖ¼àÌıÀà  
+
+	//ä¸ºå¼¹å‡ºçª—å£å®ç°ç›‘å¬ç±»
 	private OnClickListener itemsOnClick = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			// Òş²Øµ¯³ö´°¿Ú
+			// éšè—å¼¹å‡ºçª—å£
 			menuWindow.dismiss();
-			
+
 			switch (v.getId()) {
-			case R.id.takePhotoBtn:// ÅÄÕÕ
-				takePhoto();
-				break;
-			case R.id.pickPhotoBtn:// Ïà²áÑ¡ÔñÍ¼Æ¬
-				pickPhoto();
-				break;
-			case R.id.cancelBtn:// È¡Ïû
-				break;
-			default:
-				break;
+				case R.id.takePhotoBtn:// æ‹ç…§
+					takePhoto();
+					break;
+				case R.id.pickPhotoBtn:// ç›¸å†Œé€‰æ‹©å›¾ç‰‡
+					pickPhoto();
+					break;
+				case R.id.cancelBtn:// å–æ¶ˆ
+					break;
+				default:
+					break;
 			}
 		}
-	}; 
+	};
 
 
 	/**
-	 * ÅÄÕÕ»ñÈ¡Í¼Æ¬
+	 * æ‹ç…§è·å–å›¾ç‰‡
 	 */
 	private void takePhoto() {
-		// Ö´ĞĞÅÄÕÕÇ°£¬Ó¦¸ÃÏÈÅĞ¶ÏSD¿¨ÊÇ·ñ´æÔÚ
+		// æ‰§è¡Œæ‹ç…§å‰ï¼Œåº”è¯¥å…ˆåˆ¤æ–­SDå¡æ˜¯å¦å­˜åœ¨
 		String SDState = Environment.getExternalStorageState();
 		if (SDState.equals(Environment.MEDIA_MOUNTED)) {
 
 			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 			/***
-			 * ĞèÒªËµÃ÷Ò»ÏÂ£¬ÒÔÏÂ²Ù×÷Ê¹ÓÃÕÕÏà»úÅÄÕÕ£¬ÅÄÕÕºóµÄÍ¼Æ¬»á´æ·ÅÔÚÏà²áÖĞµÄ 
-			 * ÕâÀïÊ¹ÓÃµÄÕâÖÖ·½Ê½ÓĞÒ»¸öºÃ´¦¾ÍÊÇ»ñÈ¡µÄÍ¼Æ¬ÊÇÅÄÕÕºóµÄÔ­Í¼
-			 * Èç¹û²»Ê¹ÓÃContentValues´æ·ÅÕÕÆ¬Â·¾¶µÄ»°£¬ÅÄÕÕºó»ñÈ¡µÄÍ¼Æ¬ÎªËõÂÔÍ¼²»ÇåÎú
+			 * éœ€è¦è¯´æ˜ä¸€ä¸‹ï¼Œä»¥ä¸‹æ“ä½œä½¿ç”¨ç…§ç›¸æœºæ‹ç…§ï¼Œæ‹ç…§åçš„å›¾ç‰‡ä¼šå­˜æ”¾åœ¨ç›¸å†Œä¸­çš„
+			 * è¿™é‡Œä½¿ç”¨çš„è¿™ç§æ–¹å¼æœ‰ä¸€ä¸ªå¥½å¤„å°±æ˜¯è·å–çš„å›¾ç‰‡æ˜¯æ‹ç…§åçš„åŸå›¾
+			 * å¦‚æœä¸ä½¿ç”¨ContentValueså­˜æ”¾ç…§ç‰‡è·¯å¾„çš„è¯ï¼Œæ‹ç…§åè·å–çš„å›¾ç‰‡ä¸ºç¼©ç•¥å›¾ä¸æ¸…æ™°
 			 */
 			ContentValues values = new ContentValues();
 			photoUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 			intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, photoUri);
 			startActivityForResult(intent, SELECT_PIC_BY_TACK_PHOTO);
 		} else {
-			Toast.makeText(this, "ÄÚ´æ¿¨²»´æÔÚ", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "å†…å­˜å¡ä¸å­˜åœ¨", Toast.LENGTH_LONG).show();
 		}
 	}
 
 	/***
-	 * ´ÓÏà²áÖĞÈ¡Í¼Æ¬
+	 * ä»ç›¸å†Œä¸­å–å›¾ç‰‡
 	 */
 	private void pickPhoto() {
 		Intent intent = new Intent();
-		// Èç¹ûÒªÏŞÖÆÉÏ´«µ½·şÎñÆ÷µÄÍ¼Æ¬ÀàĞÍÊ±¿ÉÒÔÖ±½ÓĞ´Èç£º"image/jpeg ¡¢ image/pngµÈµÄÀàĞÍ"
+		// å¦‚æœè¦é™åˆ¶ä¸Šä¼ åˆ°æœåŠ¡å™¨çš„å›¾ç‰‡ç±»å‹æ—¶å¯ä»¥ç›´æ¥å†™å¦‚ï¼š"image/jpeg ã€ image/pngç­‰çš„ç±»å‹"
 		intent.setType("image/*");
 		intent.setAction(Intent.ACTION_GET_CONTENT);
 		startActivityForResult(intent, SELECT_PIC_BY_PICK_PHOTO);
@@ -173,44 +173,44 @@ public class UploadActivity extends Activity implements OnClickListener {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// µã»÷È¡Ïû°´Å¥
+		// ç‚¹å‡»å–æ¶ˆæŒ‰é’®
 		if(resultCode == RESULT_CANCELED){
 			return;
 		}
-		
-		// ¿ÉÒÔÊ¹ÓÃÍ¬Ò»¸ö·½·¨£¬ÕâÀï·Ö¿ªĞ´ÎªÁË·ÀÖ¹ÒÔºóÀ©Õ¹²»Í¬µÄĞèÇó
+
+		// å¯ä»¥ä½¿ç”¨åŒä¸€ä¸ªæ–¹æ³•ï¼Œè¿™é‡Œåˆ†å¼€å†™ä¸ºäº†é˜²æ­¢ä»¥åæ‰©å±•ä¸åŒçš„éœ€æ±‚
 		switch (requestCode) {
-		case SELECT_PIC_BY_PICK_PHOTO:// Èç¹ûÊÇÖ±½Ó´ÓÏà²á»ñÈ¡
-			doPhoto(requestCode, data);
-			break;
-		case SELECT_PIC_BY_TACK_PHOTO:// Èç¹ûÊÇµ÷ÓÃÏà»úÅÄÕÕÊ±
-			doPhoto(requestCode, data);
-			break;
+			case SELECT_PIC_BY_PICK_PHOTO:// å¦‚æœæ˜¯ç›´æ¥ä»ç›¸å†Œè·å–
+				doPhoto(requestCode, data);
+				break;
+			case SELECT_PIC_BY_TACK_PHOTO:// å¦‚æœæ˜¯è°ƒç”¨ç›¸æœºæ‹ç…§æ—¶
+				doPhoto(requestCode, data);
+				break;
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	/**
-	 * Ñ¡ÔñÍ¼Æ¬ºó£¬»ñÈ¡Í¼Æ¬µÄÂ·¾¶
-	 * 
+	 * é€‰æ‹©å›¾ç‰‡åï¼Œè·å–å›¾ç‰‡çš„è·¯å¾„
+	 *
 	 * @param requestCode
 	 * @param data
 	 */
 	private void doPhoto(int requestCode, Intent data) {
-		
-		// ´ÓÏà²áÈ¡Í¼Æ¬£¬ÓĞĞ©ÊÖ»úÓĞÒì³£Çé¿ö£¬Çë×¢Òâ
+
+		// ä»ç›¸å†Œå–å›¾ç‰‡ï¼Œæœ‰äº›æ‰‹æœºæœ‰å¼‚å¸¸æƒ…å†µï¼Œè¯·æ³¨æ„
 		if (requestCode == SELECT_PIC_BY_PICK_PHOTO) {
 			if (data == null) {
-				Toast.makeText(this, "Ñ¡ÔñÍ¼Æ¬ÎÄ¼ş³ö´í", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, "é€‰æ‹©å›¾ç‰‡æ–‡ä»¶å‡ºé”™", Toast.LENGTH_LONG).show();
 				return;
 			}
 			photoUri = data.getData();
 			if (photoUri == null) {
-				Toast.makeText(this, "Ñ¡ÔñÍ¼Æ¬ÎÄ¼ş³ö´í", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, "é€‰æ‹©å›¾ç‰‡æ–‡ä»¶å‡ºé”™", Toast.LENGTH_LONG).show();
 				return;
 			}
 		}
-		
+
 		String[] pojo = { MediaColumns.DATA };
 		// The method managedQuery() from the type Activity is deprecated
 		//Cursor cursor = managedQuery(photoUri, pojo, null, null, null);
@@ -219,96 +219,96 @@ public class UploadActivity extends Activity implements OnClickListener {
 			int columnIndex = cursor.getColumnIndexOrThrow(pojo[0]);
 			cursor.moveToFirst();
 			picPath = cursor.getString(columnIndex);
-			
-			// 4.0ÒÔÉÏµÄ°æ±¾»á×Ô¶¯¹Ø±Õ (4.0--14;; 4.0.3--15)
+
+			// 4.0ä»¥ä¸Šçš„ç‰ˆæœ¬ä¼šè‡ªåŠ¨å…³é—­ (4.0--14;; 4.0.3--15)
 			if (Integer.parseInt(Build.VERSION.SDK) < 14) {
 				cursor.close();
 			}
 		}
-		
-		// Èç¹ûÍ¼Æ¬·ûºÏÒªÇó½«ÆäÉÏ´«µ½·şÎñÆ÷
-		if (picPath != null && (	picPath.endsWith(".png") || 
-									picPath.endsWith(".PNG") || 
-									picPath.endsWith(".jpg") || 
-									picPath.endsWith(".JPG"))) {
 
-			
+		// å¦‚æœå›¾ç‰‡ç¬¦åˆè¦æ±‚å°†å…¶ä¸Šä¼ åˆ°æœåŠ¡å™¨
+		if (picPath != null && (	picPath.endsWith(".png") ||
+				picPath.endsWith(".PNG") ||
+				picPath.endsWith(".jpg") ||
+				picPath.endsWith(".JPG"))) {
+
+
 			BitmapFactory.Options option = new BitmapFactory.Options();
-			// Ñ¹ËõÍ¼Æ¬:±íÊ¾ËõÂÔÍ¼´óĞ¡ÎªÔ­Ê¼Í¼Æ¬´óĞ¡µÄ¼¸·ÖÖ®Ò»£¬1ÎªÔ­Í¼
+			// å‹ç¼©å›¾ç‰‡:è¡¨ç¤ºç¼©ç•¥å›¾å¤§å°ä¸ºåŸå§‹å›¾ç‰‡å¤§å°çš„å‡ åˆ†ä¹‹ä¸€ï¼Œ1ä¸ºåŸå›¾
 			option.inSampleSize = 1;
-			// ¸ù¾İÍ¼Æ¬µÄSDCardÂ·¾¶¶Á³öBitmap
+			// æ ¹æ®å›¾ç‰‡çš„SDCardè·¯å¾„è¯»å‡ºBitmap
 			Bitmap bm = BitmapFactory.decodeFile(picPath, option);
-			// ÏÔÊ¾ÔÚÍ¼Æ¬¿Ø¼şÉÏ
+			// æ˜¾ç¤ºåœ¨å›¾ç‰‡æ§ä»¶ä¸Š
 			picImg.setImageBitmap(bm);
-			
-			pd = ProgressDialog.show(mContext, null, "ÕıÔÚÉÏ´«Í¼Æ¬£¬ÇëÉÔºò...");
+
+			pd = ProgressDialog.show(mContext, null, "æ­£åœ¨ä¸Šä¼ å›¾ç‰‡ï¼Œè¯·ç¨å€™...");
 			new Thread(uploadImageRunnable).start();
 		} else {
-			Toast.makeText(this, "Ñ¡ÔñÍ¼Æ¬ÎÄ¼ş²»ÕıÈ·", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "é€‰æ‹©å›¾ç‰‡æ–‡ä»¶ä¸æ­£ç¡®", Toast.LENGTH_LONG).show();
 		}
 
 	}
 
 	/**
-	 * Ê¹ÓÃHttpUrlConnectionÄ£Äâpost±íµ¥½øĞĞÎÄ¼ş
-	 * ÉÏ´«Æ½Ê±ºÜÉÙÊ¹ÓÃ£¬±È½ÏÂé·³
-	 * Ô­ÀíÊÇ£º ·ÖÎöÎÄ¼şÉÏ´«µÄÊı¾İ¸ñÊ½£¬È»ºó¸ù¾İ¸ñÊ½¹¹ÔìÏàÓ¦µÄ·¢ËÍ¸ø·şÎñÆ÷µÄ×Ö·û´®¡£
+	 * ä½¿ç”¨HttpUrlConnectionæ¨¡æ‹Ÿpostè¡¨å•è¿›è¡Œæ–‡ä»¶
+	 * ä¸Šä¼ å¹³æ—¶å¾ˆå°‘ä½¿ç”¨ï¼Œæ¯”è¾ƒéº»çƒ¦
+	 * åŸç†æ˜¯ï¼š åˆ†ææ–‡ä»¶ä¸Šä¼ çš„æ•°æ®æ ¼å¼ï¼Œç„¶åæ ¹æ®æ ¼å¼æ„é€ ç›¸åº”çš„å‘é€ç»™æœåŠ¡å™¨çš„å­—ç¬¦ä¸²ã€‚
 	 */
 	Runnable uploadImageRunnable = new Runnable() {
 		@Override
 		public void run() {
-			
+
 			if(TextUtils.isEmpty(imgUrl)){
-				Toast.makeText(mContext, "»¹Ã»ÓĞÉèÖÃÉÏ´«·şÎñÆ÷µÄÂ·¾¶£¡", Toast.LENGTH_SHORT).show();
+				Toast.makeText(mContext, "è¿˜æ²¡æœ‰è®¾ç½®ä¸Šä¼ æœåŠ¡å™¨çš„è·¯å¾„ï¼", Toast.LENGTH_SHORT).show();
 				return;
 			}
-			
+
 			Map<String, String> textParams = new HashMap<String, String>();
 			Map<String, File> fileparams = new HashMap<String, File>();
-			
+
 			try {
-				// ´´½¨Ò»¸öURL¶ÔÏó
+				// åˆ›å»ºä¸€ä¸ªURLå¯¹è±¡
 				URL url = new URL(imgUrl);
 				textParams = new HashMap<String, String>();
 				fileparams = new HashMap<String, File>();
-				// ÒªÉÏ´«µÄÍ¼Æ¬ÎÄ¼ş
+				// è¦ä¸Šä¼ çš„å›¾ç‰‡æ–‡ä»¶
 				File file = new File(picPath);
 				fileparams.put("image", file);
-				// ÀûÓÃHttpURLConnection¶ÔÏó´ÓÍøÂçÖĞ»ñÈ¡ÍøÒ³Êı¾İ
+				// åˆ©ç”¨HttpURLConnectionå¯¹è±¡ä»ç½‘ç»œä¸­è·å–ç½‘é¡µæ•°æ®
 				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-				// ÉèÖÃÁ¬½Ó³¬Ê±£¨¼ÇµÃÉèÖÃÁ¬½Ó³¬Ê±,Èç¹ûÍøÂç²»ºÃ,AndroidÏµÍ³ÔÚ³¬¹ıÄ¬ÈÏÊ±¼ä»áÊÕ»Ø×ÊÔ´ÖĞ¶Ï²Ù×÷£©
+				// è®¾ç½®è¿æ¥è¶…æ—¶ï¼ˆè®°å¾—è®¾ç½®è¿æ¥è¶…æ—¶,å¦‚æœç½‘ç»œä¸å¥½,Androidç³»ç»Ÿåœ¨è¶…è¿‡é»˜è®¤æ—¶é—´ä¼šæ”¶å›èµ„æºä¸­æ–­æ“ä½œï¼‰
 				conn.setConnectTimeout(5000);
-				// ÉèÖÃÔÊĞíÊä³ö£¨·¢ËÍPOSTÇëÇó±ØĞëÉèÖÃÔÊĞíÊä³ö£©
+				// è®¾ç½®å…è®¸è¾“å‡ºï¼ˆå‘é€POSTè¯·æ±‚å¿…é¡»è®¾ç½®å…è®¸è¾“å‡ºï¼‰
 				conn.setDoOutput(true);
-				// ÉèÖÃÊ¹ÓÃPOSTµÄ·½Ê½·¢ËÍ
+				// è®¾ç½®ä½¿ç”¨POSTçš„æ–¹å¼å‘é€
 				conn.setRequestMethod("POST");
-				// ÉèÖÃ²»Ê¹ÓÃ»º´æ£¨ÈİÒ×³öÏÖÎÊÌâ£©
+				// è®¾ç½®ä¸ä½¿ç”¨ç¼“å­˜ï¼ˆå®¹æ˜“å‡ºç°é—®é¢˜ï¼‰
 				conn.setUseCaches(false);
-				// ÔÚ¿ªÊ¼ÓÃHttpURLConnection¶ÔÏóµÄsetRequestProperty()ÉèÖÃ,¾ÍÊÇÉú³ÉHTMLÎÄ¼şÍ·
+				// åœ¨å¼€å§‹ç”¨HttpURLConnectionå¯¹è±¡çš„setRequestProperty()è®¾ç½®,å°±æ˜¯ç”ŸæˆHTMLæ–‡ä»¶å¤´
 				conn.setRequestProperty("ser-Agent", "Fiddler");
-				// ÉèÖÃcontentType
+				// è®¾ç½®contentType
 				conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + NetUtil.BOUNDARY);
 				OutputStream os = conn.getOutputStream();
 				DataOutputStream ds = new DataOutputStream(os);
 				NetUtil.writeStringParams(textParams, ds);
 				NetUtil.writeFileParams(fileparams, ds);
 				NetUtil.paramsEnd(ds);
-				// ¶ÔÎÄ¼şÁ÷²Ù×÷Íê,Òª¼ÇµÃ¼°Ê±¹Ø±Õ
+				// å¯¹æ–‡ä»¶æµæ“ä½œå®Œ,è¦è®°å¾—åŠæ—¶å…³é—­
 				os.close();
-				// ·şÎñÆ÷·µ»ØµÄÏìÓ¦Âğ
-				int code = conn.getResponseCode(); // ´ÓInternet»ñÈ¡ÍøÒ³,·¢ËÍÇëÇó,½«ÍøÒ³ÒÔÁ÷µÄĞÎÊ½¶Á»ØÀ´
-				// ¶ÔÏìÓ¦Âë½øĞĞÅĞ¶Ï
-				if (code == 200) {// ·µ»ØµÄÏìÓ¦Âë200,ÊÇ³É¹¦
-					// µÃµ½ÍøÂç·µ»ØµÄÊäÈëÁ÷
+				// æœåŠ¡å™¨è¿”å›çš„å“åº”å—
+				int code = conn.getResponseCode(); // ä»Internetè·å–ç½‘é¡µ,å‘é€è¯·æ±‚,å°†ç½‘é¡µä»¥æµçš„å½¢å¼è¯»å›æ¥
+				// å¯¹å“åº”ç è¿›è¡Œåˆ¤æ–­
+				if (code == 200) {// è¿”å›çš„å“åº”ç 200,æ˜¯æˆåŠŸ
+					// å¾—åˆ°ç½‘ç»œè¿”å›çš„è¾“å…¥æµ
 					InputStream is = conn.getInputStream();
 					resultStr = NetUtil.readString(is);
 				} else {
-					Toast.makeText(mContext, "ÇëÇóURLÊ§°Ü£¡", Toast.LENGTH_SHORT).show();
+					Toast.makeText(mContext, "è¯·æ±‚URLå¤±è´¥ï¼", Toast.LENGTH_SHORT).show();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			handler.sendEmptyMessage(0);// Ö´ĞĞºÄÊ±µÄ·½·¨Ö®ºó·¢ËÍÏû¸øhandler
+			handler.sendEmptyMessage(0);// æ‰§è¡Œè€—æ—¶çš„æ–¹æ³•ä¹‹åå‘é€æ¶ˆç»™handler
 		}
 	};
 
@@ -317,29 +317,29 @@ public class UploadActivity extends Activity implements OnClickListener {
 		@Override
 		public boolean handleMessage(Message msg) {
 			switch (msg.what) {
-			case 0:
-				pd.dismiss();
-				
-				try {
-					JSONObject jsonObject = new JSONObject(resultStr);
-					// ·şÎñ¶ËÒÔ×Ö·û´®¡°1¡±×÷Îª²Ù×÷³É¹¦±ê¼Ç
-					if (jsonObject.optString("status").equals("1")) {
-	
-						// ÓÃÓÚÆ´½Ó·¢²¼ËµËµÊ±ÓÃµ½µÄÍ¼Æ¬Â·¾¶
-						// ·şÎñ¶Ë·µ»ØµÄJsonObject¶ÔÏóÖĞÌáÈ¡µ½Í¼Æ¬µÄÍøÂçURLÂ·¾¶
-						String imageUrl = jsonObject.optString("imageUrl");
-						// »ñÈ¡»º´æÖĞµÄÍ¼Æ¬Â·¾¶
-						Toast.makeText(mContext, imageUrl, Toast.LENGTH_SHORT).show();
-					} else {
-						Toast.makeText(mContext, jsonObject.optString("statusMessage"), Toast.LENGTH_SHORT).show();
+				case 0:
+					pd.dismiss();
+
+					try {
+						JSONObject jsonObject = new JSONObject(resultStr);
+						// æœåŠ¡ç«¯ä»¥å­—ç¬¦ä¸²â€œ1â€ä½œä¸ºæ“ä½œæˆåŠŸæ ‡è®°
+						if (jsonObject.optString("status").equals("1")) {
+
+							// ç”¨äºæ‹¼æ¥å‘å¸ƒè¯´è¯´æ—¶ç”¨åˆ°çš„å›¾ç‰‡è·¯å¾„
+							// æœåŠ¡ç«¯è¿”å›çš„JsonObjectå¯¹è±¡ä¸­æå–åˆ°å›¾ç‰‡çš„ç½‘ç»œURLè·¯å¾„
+							String imageUrl = jsonObject.optString("imageUrl");
+							// è·å–ç¼“å­˜ä¸­çš„å›¾ç‰‡è·¯å¾„
+							Toast.makeText(mContext, imageUrl, Toast.LENGTH_SHORT).show();
+						} else {
+							Toast.makeText(mContext, jsonObject.optString("statusMessage"), Toast.LENGTH_SHORT).show();
+						}
+
+					} catch (JSONException e) {
+						e.printStackTrace();
 					}
-					
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-				break;
-			default:
-				break;
+					break;
+				default:
+					break;
 			}
 			return false;
 		}

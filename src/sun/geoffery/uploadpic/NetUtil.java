@@ -12,19 +12,19 @@ import java.util.Set;
 
 public class NetUtil {
 
-	// Ò»°ãÀ´ËµÓÃÒ»¸öÉú³ÉÒ»¸öUUIDµÄ»°£¬»á¿É¿¿ºÜ¶à£¬ÕâÀï¾Í²»¿¼ÂÇÕâ¸öÁË
-	// ¶øÇÒÒ»°ãÀ´ËµÉÏ´«ÎÄ¼ş×îºÃÓÃBASE64½øĞĞ±àÂë£¬ÄãÖ»ÒªÓÃBASE64²»ÓÃµÄ·ûºÅ¾Í¿ÉÒÔ±£Ö¤²»³åÍ»ÁË¡£
-	// ÓÈÆäÊÇÉÏ´«¶ş½øÖÆÎÄ¼şÊ±£¬ÆäÖĞºÜ¿ÉÄÜÓĞ\r¡¢\nÖ®ÀàµÄ¿ØÖÆ×Ö·û£¬ÓĞÊ±»¹¿ÉÄÜ³öÏÖ×î¸ßÎ»±»´íÎó´¦ÀíµÄÎÊÌâ£¬ËùÒÔ±ØĞë½øĞĞ±àÂë¡£ 
+	// ä¸€èˆ¬æ¥è¯´ç”¨ä¸€ä¸ªç”Ÿæˆä¸€ä¸ªUUIDçš„è¯ï¼Œä¼šå¯é å¾ˆå¤šï¼Œè¿™é‡Œå°±ä¸è€ƒè™‘è¿™ä¸ªäº†
+	// è€Œä¸”ä¸€èˆ¬æ¥è¯´ä¸Šä¼ æ–‡ä»¶æœ€å¥½ç”¨BASE64è¿›è¡Œç¼–ç ï¼Œä½ åªè¦ç”¨BASE64ä¸ç”¨çš„ç¬¦å·å°±å¯ä»¥ä¿è¯ä¸å†²çªäº†ã€‚
+	// å°¤å…¶æ˜¯ä¸Šä¼ äºŒè¿›åˆ¶æ–‡ä»¶æ—¶ï¼Œå…¶ä¸­å¾ˆå¯èƒ½æœ‰\rã€\nä¹‹ç±»çš„æ§åˆ¶å­—ç¬¦ï¼Œæœ‰æ—¶è¿˜å¯èƒ½å‡ºç°æœ€é«˜ä½è¢«é”™è¯¯å¤„ç†çš„é—®é¢˜ï¼Œæ‰€ä»¥å¿…é¡»è¿›è¡Œç¼–ç ã€‚
 	public static final String BOUNDARY = "--my_boundary--";
 
 	/**
-	 * ÆÕÍ¨×Ö·û´®Êı¾İ
+	 * æ™®é€šå­—ç¬¦ä¸²æ•°æ®
 	 * @param textParams
 	 * @param ds
 	 * @throws Exception
 	 */
 	public static void writeStringParams(Map<String, String> textParams,
-			DataOutputStream ds) throws Exception {
+										 DataOutputStream ds) throws Exception {
 		Set<String> keySet = textParams.keySet();
 		for (Iterator<String> it = keySet.iterator(); it.hasNext();) {
 			String name = it.next();
@@ -39,13 +39,13 @@ public class NetUtil {
 	}
 
 	/**
-	 * ÎÄ¼şÊı¾İ
+	 * æ–‡ä»¶æ•°æ®
 	 * @param fileparams
 	 * @param ds
 	 * @throws Exception
 	 */
-	public static void writeFileParams(Map<String, File> fileparams, 
-			DataOutputStream ds) throws Exception {
+	public static void writeFileParams(Map<String, File> fileparams,
+									   DataOutputStream ds) throws Exception {
 		Set<String> keySet = fileparams.keySet();
 		for (Iterator<String> it = keySet.iterator(); it.hasNext();) {
 			String name = it.next();
@@ -60,7 +60,7 @@ public class NetUtil {
 		}
 	}
 
-	// °ÑÎÄ¼ş×ª»»³É×Ö½ÚÊı×é
+	// æŠŠæ–‡ä»¶è½¬æ¢æˆå­—èŠ‚æ•°ç»„
 	private static byte[] getBytes(File f) throws Exception {
 		FileInputStream in = new FileInputStream(f);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -74,7 +74,7 @@ public class NetUtil {
 	}
 
 	/**
-	 * Ìí¼Ó½áÎ²Êı¾İ
+	 * æ·»åŠ ç»“å°¾æ•°æ®
 	 * @param ds
 	 * @throws Exception
 	 */

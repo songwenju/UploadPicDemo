@@ -1,17 +1,5 @@
 package sun.geoffery.uploadpic;
 
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -33,257 +21,278 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * All rights Reserved, Designed By GeofferySun 
- * @Title: 	MainActivity.java 
- * @Package sun.geoffery.uploadpic 
- * @Description:Ê×Ò³Ãæ
- * @author:	GeofferySun   
- * @date:	2015Äê1ÔÂ15ÈÕ ÉÏÎç12:24:13 
- * @version	V1.0
+ * All rights Reserved, Designed By GeofferySun
+ *
+ * @Title: MainActivity.java
+ * @Package sun.geoffery.uploadpic
+ * @Description:é¦–é¡µé¢
+ * @author: GeofferySun
+ * @date: 2015å¹´1æœˆ15æ—¥ ä¸Šåˆ12:24:13
+ * @version V1.0
  */
 public class MainActivity extends Activity implements OnClickListener {
-	private Context mContext;
-	private CircleImg avatarImg;// Í·ÏñÍ¼Æ¬
-	private Button loginBtn;// Ò³ÃæµÄµÇÂ¼°´Å¥
-	private SelectPicPopupWindow menuWindow; // ×Ô¶¨ÒåµÄÍ·Ïñ±à¼­µ¯³ö¿ò
-	// ÉÏ´«·şÎñÆ÷µÄÂ·¾¶¡¾Ò»°ã²»Ó²±àÂëµ½³ÌĞòÖĞ¡¿
-	private String imgUrl = "";
-    private static final String IMAGE_FILE_NAME = "avatarImage.jpg";// Í·ÏñÎÄ¼şÃû³Æ
-    private String urlpath;			// Í¼Æ¬±¾µØÂ·¾¶
-    private String resultStr = "";	// ·şÎñ¶Ë·µ»Ø½á¹û¼¯
-    private static ProgressDialog pd;// µÈ´ı½ø¶ÈÈ¦
-    private static final int REQUESTCODE_PICK = 0;		// Ïà²áÑ¡Í¼±ê¼Ç
-    private static final int REQUESTCODE_TAKE = 1;		// Ïà»úÅÄÕÕ±ê¼Ç
-    private static final int REQUESTCODE_CUTTING = 2;	// Í¼Æ¬²ÃÇĞ±ê¼Ç
+    private Context mContext;
+    private CircleImg avatarImg;// å¤´åƒå›¾ç‰‡
+    private Button loginBtn;// é¡µé¢çš„ç™»å½•æŒ‰é’®
+    private SelectPicPopupWindow menuWindow; // è‡ªå®šä¹‰çš„å¤´åƒç¼–è¾‘å¼¹å‡ºæ¡†
+    // ä¸Šä¼ æœåŠ¡å™¨çš„è·¯å¾„ã€ä¸€èˆ¬ä¸ç¡¬ç¼–ç åˆ°ç¨‹åºä¸­ã€‘
+    private String imgUrl = "";
+    private static final String IMAGE_FILE_NAME = "avatarImage.jpg";// å¤´åƒæ–‡ä»¶åç§°
+    private String urlpath;            // å›¾ç‰‡æœ¬åœ°è·¯å¾„
+    private String resultStr = "";    // æœåŠ¡ç«¯è¿”å›ç»“æœé›†
+    private static ProgressDialog pd;// ç­‰å¾…è¿›åº¦åœˆ
+    private static final int REQUESTCODE_PICK = 0;        // ç›¸å†Œé€‰å›¾æ ‡è®°
+    private static final int REQUESTCODE_TAKE = 1;        // ç›¸æœºæ‹ç…§æ ‡è®°
+    private static final int REQUESTCODE_CUTTING = 2;    // å›¾ç‰‡è£åˆ‡æ ‡è®°
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		
-		mContext = MainActivity.this;
-		
-		initViews();
-	}
-	
-	/**
-	 * ³õÊ¼»¯Ò³Ãæ¿Ø¼ş
-	 */
-	private void initViews() {
-		avatarImg = (CircleImg) findViewById(R.id.avatarImg);
-		loginBtn = (Button) findViewById(R.id.loginBtn);
-		
-		avatarImg.setOnClickListener(this);
-		loginBtn.setOnClickListener(this);
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.avatarImg:// ¸ü»»Í·Ïñµã»÷ÊÂ¼ş
-			menuWindow = new SelectPicPopupWindow(mContext, itemsOnClick);  
-			menuWindow.showAtLocation(findViewById(R.id.mainLayout), 
-					Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0); 
-			break;
-		case R.id.loginBtn://µÇÂ¼°´Å¥Ìø×ªÊÂ¼ş
-			startActivity(new Intent(mContext, UploadActivity.class));
-			break;
+        mContext = MainActivity.this;
 
-		default:
-			break;
-		}
-	}
-	
-	//Îªµ¯³ö´°¿ÚÊµÏÖ¼àÌıÀà  
-	private OnClickListener itemsOnClick = new OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			menuWindow.dismiss();
-			switch (v.getId()) {
-			// ÅÄÕÕ
-			case R.id.takePhotoBtn:
-				Intent takeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-				//ÏÂÃæÕâ¾äÖ¸¶¨µ÷ÓÃÏà»úÅÄÕÕºóµÄÕÕÆ¬´æ´¢µÄÂ·¾¶
-				takeIntent.putExtra(MediaStore.EXTRA_OUTPUT, 
-						Uri.fromFile(new File(Environment.getExternalStorageDirectory(), IMAGE_FILE_NAME)));
-				startActivityForResult(takeIntent, REQUESTCODE_TAKE);
-				break;
-			// Ïà²áÑ¡ÔñÍ¼Æ¬
-			case R.id.pickPhotoBtn:
-				Intent pickIntent = new Intent(Intent.ACTION_PICK, null);
-				// Èç¹ûÅóÓÑÃÇÒªÏŞÖÆÉÏ´«µ½·şÎñÆ÷µÄÍ¼Æ¬ÀàĞÍÊ±¿ÉÒÔÖ±½ÓĞ´Èç£º"image/jpeg ¡¢ image/pngµÈµÄÀàĞÍ"
-				pickIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-				startActivityForResult(pickIntent, REQUESTCODE_PICK);
-				break;
-			default:
-				break;
-			}
-		}
-	}; 
-	
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		
-		switch (requestCode) {
-		case REQUESTCODE_PICK:// Ö±½Ó´ÓÏà²á»ñÈ¡
-			try {
-				startPhotoZoom(data.getData());
-			} catch (NullPointerException e) {
-				e.printStackTrace();// ÓÃ»§µã»÷È¡Ïû²Ù×÷
-			}
-			break;
-		case REQUESTCODE_TAKE:// µ÷ÓÃÏà»úÅÄÕÕ
-			File temp = new File(Environment.getExternalStorageDirectory() + "/" + IMAGE_FILE_NAME);
-			startPhotoZoom(Uri.fromFile(temp));
-			break;
-		case REQUESTCODE_CUTTING:// È¡µÃ²Ã¼ôºóµÄÍ¼Æ¬
-			if (data != null) {
-				setPicToView(data);
-			}
-			break;
-		}
-		super.onActivityResult(requestCode, resultCode, data);
-	}
-		
-	/**
-	 * ²Ã¼ôÍ¼Æ¬·½·¨ÊµÏÖ
-	 * @param uri
-	 */
-	public void startPhotoZoom(Uri uri) {
-		Intent intent = new Intent("com.android.camera.action.CROP");
-		intent.setDataAndType(uri, "image/*");
-		// crop=trueÊÇÉèÖÃÔÚ¿ªÆôµÄIntentÖĞÉèÖÃÏÔÊ¾µÄVIEW¿É²Ã¼ô
-		intent.putExtra("crop", "true");
-		// aspectX aspectY ÊÇ¿í¸ßµÄ±ÈÀı
-		intent.putExtra("aspectX", 1);
-		intent.putExtra("aspectY", 1);
-		// outputX outputY ÊÇ²Ã¼ôÍ¼Æ¬¿í¸ß
-		intent.putExtra("outputX", 300);
-		intent.putExtra("outputY", 300);
-		intent.putExtra("return-data", true);
-		startActivityForResult(intent, REQUESTCODE_CUTTING);
-	}
-		
-	/**
-	 * ±£´æ²Ã¼ôÖ®ºóµÄÍ¼Æ¬Êı¾İ
-	 * @param picdata
-	 */
-	private void setPicToView(Intent picdata) {
-		Bundle extras = picdata.getExtras();
-		if (extras != null) {
-			// È¡µÃSDCardÍ¼Æ¬Â·¾¶×öÏÔÊ¾
-			Bitmap photo = extras.getParcelable("data");
-			Drawable drawable = new BitmapDrawable(null, photo);
-			urlpath = FileUtil.saveFile(mContext, "temphead.jpg", photo);
-			avatarImg.setImageDrawable(drawable);
+        initViews();
+    }
 
-			// ĞÂÏß³ÌºóÌ¨ÉÏ´«·şÎñ¶Ë
-			pd = ProgressDialog.show(mContext, null, "ÕıÔÚÉÏ´«Í¼Æ¬£¬ÇëÉÔºò...");
-			new Thread(uploadImageRunnable).start();
-		}
-	}
+    /**
+     * åˆå§‹åŒ–é¡µé¢æ§ä»¶
+     */
+    private void initViews() {
+        avatarImg = (CircleImg) findViewById(R.id.avatarImg);
+        loginBtn = (Button) findViewById(R.id.loginBtn);
 
-	/**
-	 * Ê¹ÓÃHttpUrlConnectionÄ£Äâpost±íµ¥½øĞĞÎÄ¼ş
-	 * ÉÏ´«Æ½Ê±ºÜÉÙÊ¹ÓÃ£¬±È½ÏÂé·³
-	 * Ô­ÀíÊÇ£º ·ÖÎöÎÄ¼şÉÏ´«µÄÊı¾İ¸ñÊ½£¬È»ºó¸ù¾İ¸ñÊ½¹¹ÔìÏàÓ¦µÄ·¢ËÍ¸ø·şÎñÆ÷µÄ×Ö·û´®¡£
-	 */
-	Runnable uploadImageRunnable = new Runnable() {
-		@Override
-		public void run() {
-			
-			if(TextUtils.isEmpty(imgUrl)){
-				Toast.makeText(mContext, "»¹Ã»ÓĞÉèÖÃÉÏ´«·şÎñÆ÷µÄÂ·¾¶£¡", Toast.LENGTH_SHORT).show();
-				return;
-			}
-			
-			Map<String, String> textParams = new HashMap<String, String>();
-			Map<String, File> fileparams = new HashMap<String, File>();
-			
-			try {
-				// ´´½¨Ò»¸öURL¶ÔÏó
-				URL url = new URL(imgUrl);
-				textParams = new HashMap<String, String>();
-				fileparams = new HashMap<String, File>();
-				// ÒªÉÏ´«µÄÍ¼Æ¬ÎÄ¼ş
-				File file = new File(urlpath);
-				fileparams.put("image", file);
-				// ÀûÓÃHttpURLConnection¶ÔÏó´ÓÍøÂçÖĞ»ñÈ¡ÍøÒ³Êı¾İ
-				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-				// ÉèÖÃÁ¬½Ó³¬Ê±£¨¼ÇµÃÉèÖÃÁ¬½Ó³¬Ê±,Èç¹ûÍøÂç²»ºÃ,AndroidÏµÍ³ÔÚ³¬¹ıÄ¬ÈÏÊ±¼ä»áÊÕ»Ø×ÊÔ´ÖĞ¶Ï²Ù×÷£©
-				conn.setConnectTimeout(5000);
-				// ÉèÖÃÔÊĞíÊä³ö£¨·¢ËÍPOSTÇëÇó±ØĞëÉèÖÃÔÊĞíÊä³ö£©
-				conn.setDoOutput(true);
-				// ÉèÖÃÊ¹ÓÃPOSTµÄ·½Ê½·¢ËÍ
-				conn.setRequestMethod("POST");
-				// ÉèÖÃ²»Ê¹ÓÃ»º´æ£¨ÈİÒ×³öÏÖÎÊÌâ£©
-				conn.setUseCaches(false);
-				conn.setRequestProperty("Charset", "UTF-8");//ÉèÖÃ±àÂë   
-				// ÔÚ¿ªÊ¼ÓÃHttpURLConnection¶ÔÏóµÄsetRequestProperty()ÉèÖÃ,¾ÍÊÇÉú³ÉHTMLÎÄ¼şÍ·
-				conn.setRequestProperty("ser-Agent", "Fiddler");
-				// ÉèÖÃcontentType
-				conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + NetUtil.BOUNDARY);
-				OutputStream os = conn.getOutputStream();
-				DataOutputStream ds = new DataOutputStream(os);
-				NetUtil.writeStringParams(textParams, ds);
-				NetUtil.writeFileParams(fileparams, ds);
-				NetUtil.paramsEnd(ds);
-				// ¶ÔÎÄ¼şÁ÷²Ù×÷Íê,Òª¼ÇµÃ¼°Ê±¹Ø±Õ
-				os.close();
-				// ·şÎñÆ÷·µ»ØµÄÏìÓ¦Âğ
-				int code = conn.getResponseCode(); // ´ÓInternet»ñÈ¡ÍøÒ³,·¢ËÍÇëÇó,½«ÍøÒ³ÒÔÁ÷µÄĞÎÊ½¶Á»ØÀ´
-				// ¶ÔÏìÓ¦Âë½øĞĞÅĞ¶Ï
-				if (code == 200) {// ·µ»ØµÄÏìÓ¦Âë200,ÊÇ³É¹¦
-					// µÃµ½ÍøÂç·µ»ØµÄÊäÈëÁ÷
-					InputStream is = conn.getInputStream();
-					resultStr = NetUtil.readString(is);
-				} else {
-					Toast.makeText(mContext, "ÇëÇóURLÊ§°Ü£¡", Toast.LENGTH_SHORT).show();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			handler.sendEmptyMessage(0);// Ö´ĞĞºÄÊ±µÄ·½·¨Ö®ºó·¢ËÍÏû¸øhandler
-		}
-	};
-	
-	Handler handler = new Handler(new Handler.Callback() {
-		
-		@Override
-		public boolean handleMessage(Message msg) {
-			switch (msg.what) {
-			case 0:
-				pd.dismiss();
-				
-				try {
-					// ·µ»ØÊı¾İÊ¾Àı£¬¸ù¾İĞèÇóºÍºóÌ¨Êı¾İÁé»î´¦Àí
-					// {"status":"1","statusMessage":"ÉÏ´«³É¹¦","imageUrl":"http://120.24.219.49/726287_temphead.jpg"}
-					JSONObject jsonObject = new JSONObject(resultStr);
-					
-					// ·şÎñ¶ËÒÔ×Ö·û´®¡°1¡±×÷Îª²Ù×÷³É¹¦±ê¼Ç
-					if (jsonObject.optString("status").equals("1")) {
-						BitmapFactory.Options option = new BitmapFactory.Options();
-						// Ñ¹ËõÍ¼Æ¬:±íÊ¾ËõÂÔÍ¼´óĞ¡ÎªÔ­Ê¼Í¼Æ¬´óĞ¡µÄ¼¸·ÖÖ®Ò»£¬1ÎªÔ­Í¼£¬3ÎªÈı·ÖÖ®Ò»
-						option.inSampleSize = 1;
-						
-						// ·şÎñ¶Ë·µ»ØµÄJsonObject¶ÔÏóÖĞÌáÈ¡µ½Í¼Æ¬µÄÍøÂçURLÂ·¾¶
-						String imageUrl = jsonObject.optString("imageUrl");
-						Toast.makeText(mContext, imageUrl, Toast.LENGTH_SHORT).show();
-					}else{
-						Toast.makeText(mContext, jsonObject.optString("statusMessage"), Toast.LENGTH_SHORT).show();
-					}
-					
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-				
-				break;
-				
-			default:
-				break;
-			}
-			return false;
-		}
-	});
+        avatarImg.setOnClickListener(this);
+        loginBtn.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.avatarImg:// æ›´æ¢å¤´åƒç‚¹å‡»äº‹ä»¶
+                menuWindow = new SelectPicPopupWindow(mContext, itemsOnClick);
+                menuWindow.showAtLocation(findViewById(R.id.mainLayout),
+                        Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                break;
+            case R.id.loginBtn://ç™»å½•æŒ‰é’®è·³è½¬äº‹ä»¶
+                startActivity(new Intent(mContext, UploadActivity.class));
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    //ä¸ºå¼¹å‡ºçª—å£å®ç°ç›‘å¬ç±»
+    private OnClickListener itemsOnClick = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            menuWindow.dismiss();
+            switch (v.getId()) {
+                // æ‹ç…§
+                case R.id.takePhotoBtn:
+                    Intent takeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    //ä¸‹é¢è¿™å¥æŒ‡å®šè°ƒç”¨ç›¸æœºæ‹ç…§åçš„ç…§ç‰‡å­˜å‚¨çš„è·¯å¾„
+                    takeIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                            Uri.fromFile(new File(Environment.getExternalStorageDirectory(), IMAGE_FILE_NAME)));
+                    startActivityForResult(takeIntent, REQUESTCODE_TAKE);
+                    break;
+                // ç›¸å†Œé€‰æ‹©å›¾ç‰‡
+                case R.id.pickPhotoBtn:
+                    Intent pickIntent = new Intent(Intent.ACTION_PICK, null);
+                    // å¦‚æœæœ‹å‹ä»¬è¦é™åˆ¶ä¸Šä¼ åˆ°æœåŠ¡å™¨çš„å›¾ç‰‡ç±»å‹æ—¶å¯ä»¥ç›´æ¥å†™å¦‚ï¼š"image/jpeg ã€ image/pngç­‰çš„ç±»å‹"
+                    pickIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                    startActivityForResult(pickIntent, REQUESTCODE_PICK);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        switch (requestCode) {
+            case REQUESTCODE_PICK:// ç›´æ¥ä»ç›¸å†Œè·å–
+                try {
+                    startPhotoZoom(data.getData());
+                } catch (NullPointerException e) {
+                    e.printStackTrace();// ç”¨æˆ·ç‚¹å‡»å–æ¶ˆæ“ä½œ
+                }
+                break;
+            case REQUESTCODE_TAKE:// è°ƒç”¨ç›¸æœºæ‹ç…§
+                File temp = new File(Environment.getExternalStorageDirectory() + "/" + IMAGE_FILE_NAME);
+                startPhotoZoom(Uri.fromFile(temp));
+                break;
+            case REQUESTCODE_CUTTING:// å–å¾—è£å‰ªåçš„å›¾ç‰‡
+                if (data != null) {
+                    setPicToView(data);
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /**
+     * è£å‰ªå›¾ç‰‡æ–¹æ³•å®ç°
+     *
+     * @param uri
+     */
+    public void startPhotoZoom(Uri uri) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        // crop=trueæ˜¯è®¾ç½®åœ¨å¼€å¯çš„Intentä¸­è®¾ç½®æ˜¾ç¤ºçš„VIEWå¯è£å‰ª
+        intent.putExtra("crop", "true");
+        // aspectX aspectY æ˜¯å®½é«˜çš„æ¯”ä¾‹
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        // outputX outputY æ˜¯è£å‰ªå›¾ç‰‡å®½é«˜
+        intent.putExtra("outputX", 300);
+        intent.putExtra("outputY", 300);
+        intent.putExtra("return-data", true);
+        startActivityForResult(intent, REQUESTCODE_CUTTING);
+    }
+
+    /**
+     * ä¿å­˜è£å‰ªä¹‹åçš„å›¾ç‰‡æ•°æ®
+     *
+     * @param picdata
+     */
+    private void setPicToView(Intent picdata) {
+        Bundle extras = picdata.getExtras();
+        if (extras != null) {
+            // å–å¾—SDCardå›¾ç‰‡è·¯å¾„åšæ˜¾ç¤º
+            Bitmap photo = extras.getParcelable("data");
+            Drawable drawable = new BitmapDrawable(null, photo);
+            urlpath = FileUtil.saveFile(mContext, "temphead.jpg", photo);
+            avatarImg.setImageDrawable(drawable);
+
+            // æ–°çº¿ç¨‹åå°ä¸Šä¼ æœåŠ¡ç«¯
+            pd = ProgressDialog.show(mContext, null, "æ­£åœ¨ä¸Šä¼ å›¾ç‰‡ï¼Œè¯·ç¨å€™...");
+            new Thread(uploadImageRunnable).start();
+        }
+    }
+
+    /**
+     * ä½¿ç”¨HttpUrlConnectionæ¨¡æ‹Ÿpostè¡¨å•è¿›è¡Œæ–‡ä»¶
+     * ä¸Šä¼ å¹³æ—¶å¾ˆå°‘ä½¿ç”¨ï¼Œæ¯”è¾ƒéº»çƒ¦
+     * åŸç†æ˜¯ï¼š åˆ†ææ–‡ä»¶ä¸Šä¼ çš„æ•°æ®æ ¼å¼ï¼Œç„¶åæ ¹æ®æ ¼å¼æ„é€ ç›¸åº”çš„å‘é€ç»™æœåŠ¡å™¨çš„å­—ç¬¦ä¸²ã€‚
+     */
+    Runnable uploadImageRunnable = new Runnable() {
+        @Override
+        public void run() {
+
+
+            if (TextUtils.isEmpty(imgUrl)) {
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(mContext, "è¿˜æ²¡æœ‰è®¾ç½®ä¸Šä¼ æœåŠ¡å™¨çš„è·¯å¾„ï¼", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                });
+            }
+
+            Map<String, String> textParams = new HashMap<String, String>();
+            Map<String, File> fileparams = new HashMap<String, File>();
+
+            try {
+                // åˆ›å»ºä¸€ä¸ªURLå¯¹è±¡
+                URL url = new URL(imgUrl);
+                textParams = new HashMap<String, String>();
+                fileparams = new HashMap<String, File>();
+                // è¦ä¸Šä¼ çš„å›¾ç‰‡æ–‡ä»¶
+                File file = new File(urlpath);
+                fileparams.put("image", file);
+                // åˆ©ç”¨HttpURLConnectionå¯¹è±¡ä»ç½‘ç»œä¸­è·å–ç½‘é¡µæ•°æ®
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                // è®¾ç½®è¿æ¥è¶…æ—¶ï¼ˆè®°å¾—è®¾ç½®è¿æ¥è¶…æ—¶,å¦‚æœç½‘ç»œä¸å¥½,Androidç³»ç»Ÿåœ¨è¶…è¿‡é»˜è®¤æ—¶é—´ä¼šæ”¶å›èµ„æºä¸­æ–­æ“ä½œï¼‰
+                conn.setConnectTimeout(5000);
+                // è®¾ç½®å…è®¸è¾“å‡ºï¼ˆå‘é€POSTè¯·æ±‚å¿…é¡»è®¾ç½®å…è®¸è¾“å‡ºï¼‰
+                conn.setDoOutput(true);
+                // è®¾ç½®ä½¿ç”¨POSTçš„æ–¹å¼å‘é€
+                conn.setRequestMethod("POST");
+                // è®¾ç½®ä¸ä½¿ç”¨ç¼“å­˜ï¼ˆå®¹æ˜“å‡ºç°é—®é¢˜ï¼‰
+                conn.setUseCaches(false);
+                conn.setRequestProperty("Charset", "UTF-8");//è®¾ç½®ç¼–ç 
+                // åœ¨å¼€å§‹ç”¨HttpURLConnectionå¯¹è±¡çš„setRequestProperty()è®¾ç½®,å°±æ˜¯ç”ŸæˆHTMLæ–‡ä»¶å¤´
+                conn.setRequestProperty("ser-Agent", "Fiddler");
+                // è®¾ç½®contentType
+                conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + NetUtil.BOUNDARY);
+                OutputStream os = conn.getOutputStream();
+                DataOutputStream ds = new DataOutputStream(os);
+                NetUtil.writeStringParams(textParams, ds);
+                NetUtil.writeFileParams(fileparams, ds);
+                NetUtil.paramsEnd(ds);
+                // å¯¹æ–‡ä»¶æµæ“ä½œå®Œ,è¦è®°å¾—åŠæ—¶å…³é—­
+                os.close();
+                // æœåŠ¡å™¨è¿”å›çš„å“åº”å—
+                int code = conn.getResponseCode(); // ä»Internetè·å–ç½‘é¡µ,å‘é€è¯·æ±‚,å°†ç½‘é¡µä»¥æµçš„å½¢å¼è¯»å›æ¥
+                // å¯¹å“åº”ç è¿›è¡Œåˆ¤æ–­
+                if (code == 200) {// è¿”å›çš„å“åº”ç 200,æ˜¯æˆåŠŸ
+                    // å¾—åˆ°ç½‘ç»œè¿”å›çš„è¾“å…¥æµ
+                    InputStream is = conn.getInputStream();
+                    resultStr = NetUtil.readString(is);
+                } else {
+                    Toast.makeText(mContext, "è¯·æ±‚URLå¤±è´¥ï¼", Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            handler.sendEmptyMessage(0);// æ‰§è¡Œè€—æ—¶çš„æ–¹æ³•ä¹‹åå‘é€æ¶ˆç»™handler
+        }
+    };
+
+    Handler handler = new Handler(new Handler.Callback() {
+
+        @Override
+        public boolean handleMessage(Message msg) {
+            switch (msg.what) {
+                case 0:
+                    pd.dismiss();
+
+                    try {
+                        // è¿”å›æ•°æ®ç¤ºä¾‹ï¼Œæ ¹æ®éœ€æ±‚å’Œåå°æ•°æ®çµæ´»å¤„ç†
+                        // {"status":"1","statusMessage":"ä¸Šä¼ æˆåŠŸ","imageUrl":"http://120.24.219.49/726287_temphead.jpg"}
+                        JSONObject jsonObject = new JSONObject(resultStr);
+
+                        // æœåŠ¡ç«¯ä»¥å­—ç¬¦ä¸²â€œ1â€ä½œä¸ºæ“ä½œæˆåŠŸæ ‡è®°
+                        if (jsonObject.optString("status").equals("1")) {
+                            BitmapFactory.Options option = new BitmapFactory.Options();
+                            // å‹ç¼©å›¾ç‰‡:è¡¨ç¤ºç¼©ç•¥å›¾å¤§å°ä¸ºåŸå§‹å›¾ç‰‡å¤§å°çš„å‡ åˆ†ä¹‹ä¸€ï¼Œ1ä¸ºåŸå›¾ï¼Œ3ä¸ºä¸‰åˆ†ä¹‹ä¸€
+                            option.inSampleSize = 1;
+
+                            // æœåŠ¡ç«¯è¿”å›çš„JsonObjectå¯¹è±¡ä¸­æå–åˆ°å›¾ç‰‡çš„ç½‘ç»œURLè·¯å¾„
+                            String imageUrl = jsonObject.optString("imageUrl");
+                            Toast.makeText(mContext, imageUrl, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(mContext, jsonObject.optString("statusMessage"), Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    break;
+
+                default:
+                    break;
+            }
+            return false;
+        }
+    });
 }
